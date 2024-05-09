@@ -1,0 +1,36 @@
+name: Convert README.ipynb to README.md
+
+on:
+  push:
+    branches:
+      - main  # Set this to the branch you use
+    paths:
+      - '**/README.ipynb'
+
+jobs:
+  convert-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install nbconvert
+        run: |
+          python -m pip install --upgrade pip
+          pip install nbconvert
+
+      - name: Convert README.ipynb to README.md
+        run: jupyter-nbconvert --to markdown README.ipynb
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update README.md" || exit 0  # Do nothing if no changes
+          git push

@@ -1,0 +1,7 @@
+ffmpeg-python
+numpy
+pandas
+torch
+pyannote.audio
+transformers
+accelerate
