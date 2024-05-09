@@ -3,7 +3,7 @@ name: Convert README.ipynb to README.md
 on:
   push:
     branches:
-      - main  # Set this to the branch you use
+      - main
     paths:
       - '**/README.ipynb'
 
