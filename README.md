@@ -1,3 +1,8 @@
+# Speech Transcription and Diarization
+
+💬 YoutubeCC - Parse JSON3 Youtube Closed Captions
+
+
 ```python
 import dotenv, json
 from pathlib import Path
@@ -9,9 +14,7 @@ dotenv.load_dotenv()
 PODCAST_AUDIO_PATH = Path.cwd() / ".data" / "audio.wav"
 ```
 
-    /home/arthur/Documents/02.workspace/02.active/speech-transcription-and-diarization/venv/lib/python3.10/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-      from .autonotebook import tqdm as notebook_tqdm
-
+## Automatic Speech Recognition with Hugging Face Transformers implementation of Whisper
 
 
 ```python
@@ -29,7 +32,6 @@ transcript_df
 ```
 
     Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
-    WhisperModel is using WhisperSdpaAttention, but `torch.nn.functional.scaled_dot_product_attention` does not support `output_attentions=True` or `layer_head_mask` not None. Falling back to the manual attention implementation, but specifying the manual implementation will be required from Transformers version v5.0.0 onwards. This warning can be removed using the argument `attn_implementation="eager"` when loading the model.
     Whisper did not predict an ending timestamp, which can happen if audio is cut off in the middle of a word. Also make sure WhisperTimeStampLogitsProcessor was used during generation.
 
 
@@ -133,6 +135,8 @@ transcript_df
 
 
 
+## Speaker Diarization with PyAnnote [`pyannote/speaker-diarization-3.1`](https://huggingface.co/pyannote/speaker-diarization-3.1)
+
 
 ```python
 with DiarizationPipeline() as diarization:
@@ -140,9 +144,6 @@ with DiarizationPipeline() as diarization:
 
 speakers_df
 ```
-
-    torchvision is not available - cannot save figures
-
 
 
 
@@ -256,6 +257,8 @@ speakers_df
 
 
 
+## Assign speaker labels to each chunk in the transcript
+
 
 ```python
 assign_speaker_to_transcript(
@@ -263,6 +266,11 @@ assign_speaker_to_transcript(
     transcript_df=transcript_df,
     inplace=True,
 )
+
+transcript_df.to_json(
+    PODCAST_AUDIO_PATH.with_suffix(".json"), orient="records", indent=4
+)
+
 transcript_df
 ```
 
@@ -377,13 +385,6 @@ transcript_df
 </div>
 
 
-
-
-```python
-transcript_df.to_json(
-    PODCAST_AUDIO_PATH.with_suffix(".json"), orient="records", indent=4
-)
-```
 
 
 ```python
