@@ -118,6 +118,9 @@ class DiarizationPipeline:
         )
         diarize_df["start"] = diarize_df["segment"].apply(lambda x: x.start)
         diarize_df["end"] = diarize_df["segment"].apply(lambda x: x.end)
+
+        for col in ["start", "end"]:
+            diarize_df[col] = pd.to_timedelta(diarize_df[col], unit="s")
+
         diarize_df.drop(columns=["segment"], inplace=True)
-        return diarize_df
         return diarize_df

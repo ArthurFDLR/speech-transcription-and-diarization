@@ -228,6 +228,10 @@ class WhisperPipeline:
 
         df = pd.DataFrame(output["chunks"])
         df[["start", "end"]] = pd.DataFrame(df.timestamp.tolist())
+
+        for col in ["start", "end"]:
+            df[col] = pd.to_timedelta(df[col], unit="s")
+
         df.drop(columns="timestamp", inplace=True)
         return df
 
