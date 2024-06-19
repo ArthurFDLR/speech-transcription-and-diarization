@@ -24,7 +24,13 @@ setup(
     packages=find_packages(),
     install_requires=[
         "jsonschema",
+        "numpy",
         "pandas",
+        "ffmpeg-python",
+        "pyannote.audio",
+        "torch",
+        "transformers",
+        "accelerate",
     ],
     author="Arthur Findelair",
     author_email="arthfind@gmail.com",
